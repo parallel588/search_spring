@@ -1,4 +1,5 @@
 # SearchSpring
+[![Build Status](https://api.travis-ci.org/parallel588/search_spring.svg?branch=master)](https://api.travis-ci.org/parallel588/search_spring.svg?branch=master)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/search_spring`. To experiment with that code, run `bin/console` for an interactive prompt.
 
@@ -33,4 +34,3 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/Maxim Pechnikov/search_spring.
-

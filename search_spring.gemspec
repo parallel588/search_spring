@@ -4,10 +4,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'search_spring/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "search_spring"
+  spec.name          = 'search_spring'
   spec.version       = SearchSpring::VERSION
-  spec.authors       = ["Maxim Pechnikov"]
-  spec.email         = ["parallel588@gmail.com"]
+  spec.authors       = ['Maxim Pechnikov']
+  spec.email         = ['parallel588@gmail.com']
   spec.summary     = 'You heard us, a Ruby wrapper for the SearchSpring Live Indexing API'
   spec.description = 'Ruby wrapper for the SearchSpring Live Indexing API'
   spec.homepage      = 'https://searchspring.com/'
@@ -15,17 +15,18 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = "exe"
+  spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
   spec.add_runtime_dependency('excon', '>= 0.54.0')
   spec.add_runtime_dependency('faraday', ['>= 0.9.2', '< 1.0'])
   spec.add_runtime_dependency('faraday_middleware', ['>= 0.9.2', '< 1.0'])
   spec.add_runtime_dependency('multi_json', '>= 1.12.1')
 
-  spec.add_development_dependency "bundler", "~> 1.14"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency 'bundler', '~> 1.14'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec', '~> 3.5'
   spec.add_development_dependency 'pry', '~> 0.10.3'
+  spec.add_development_dependency 'webmock', '~> 2.3', '>= 2.3.2'
 end
