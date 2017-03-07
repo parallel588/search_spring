@@ -13,17 +13,21 @@ module SearchSpring
         return if (status = env[:status]) < 400
         case status
         when 404
-          raise Errors::NotFound, env[:body]
+          raise Errors::NotFound, response_values(env)
         when 422
-          raise Errors::UnprocessableEntity, env[:body]
+          raise Errors::UnprocessableEntity, response_values(env)
         when 401
-          raise Errors::NotAuthorized, env[:body]
+          raise Errors::NotAuthorized, response_values(env)
         when 407
           # mimic the behavior that we get with proxy requests with HTTPS
           raise Faraday::Error::ConnectionFailed, %{407 "Proxy Authentication Required "}
-        else
-          raise Errors::InternalServerError, env[:body] # Treat any other errors as 500
+        when 408...600
+          raise Errors::InternalServerError, response_values(env) # Treat any other errors as 500
         end
+      end
+
+      def response_values(env)
+        { status: env.status, headers: env.response_headers, body: env.body }
       end
     end
   end
