@@ -50,8 +50,9 @@ module SearchSpring
         f.request  :json
         f.request  :basic_auth, site_id, secret_key
         f.response :logger
-        f.adapter :excon
         f.use Errors::RequestError
+        f.adapter :excon
+
       end
     end
 

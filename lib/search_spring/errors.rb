@@ -8,6 +8,18 @@ module SearchSpring
     class AuthenticationError < SearchSpringError; end
 
     class RequestError < Faraday::Response::Middleware
+      def call(env)
+        @request_data = {
+          url: env.url.to_s,
+          method: env.method,
+          header: env[:request_headers],
+          body: env.body
+        }
+        @app.call(env).on_complete do |environment|
+          on_complete(environment)
+        end
+      end
+
       def on_complete(env)
         # Ignore any non-error response codes
         return if (status = env[:status]) < 400
@@ -27,7 +39,10 @@ module SearchSpring
       end
 
       def response_values(env)
-        { status: env.status, headers: env.response_headers, body: env.body }
+        { status: env.status,
+          headers: env.response_headers,
+          body: env.body,
+          request: (@request_data || {}) }
       end
     end
   end
