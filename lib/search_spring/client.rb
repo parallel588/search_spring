@@ -2,8 +2,6 @@ require_relative 'errors'
 module SearchSpring
   API_ENDPOINT = 'https://api.searchspring.net'.freeze
 
-  #
-  #
   class Client
     attr_reader :site_id, :conn, :secret_key
 
@@ -47,12 +45,10 @@ module SearchSpring
     def connection(options = {})
       Faraday.new(default_req_options.merge(options)) do |f|
         f.headers['Accept'] = 'application/json'
-        f.request  :json
         f.request  :basic_auth, site_id, secret_key
         f.response :logger
         f.use Errors::RequestError
         f.adapter :excon
-
       end
     end
 

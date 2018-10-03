@@ -20,8 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'excon', '~> 0.54', '>= 0.54.0'
-  spec.add_runtime_dependency 'faraday', ['>= 0.9.2', '< 1.0']
-  spec.add_runtime_dependency 'faraday_middleware', ['>= 0.9.2', '< 1.0']
+  spec.add_runtime_dependency 'faraday', '~> 0.12.2'
   spec.add_runtime_dependency 'multi_json', '~> 1.12', '>= 1.12.1'
 
   spec.add_development_dependency 'bundler', '~> 1.14'
