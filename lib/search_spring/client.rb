@@ -17,27 +17,36 @@ module SearchSpring
     end
 
     def upsert(feed_id:, products: [])
-      conn.post(
-        'api/index/upsert.json',
-        feedId: feed_id,
-        records: products
-      )
+      conn.post do |req|
+        req.url 'api/index/upsert.json'
+        req.headers['Content-Type'] = 'application/json'
+        req.body = MultiJson.dump(
+          feedId: feed_id,
+          records: products
+        )
+      end
     end
 
     def update(feed_id:, products: [])
-      conn.post(
-        'api/index/update.json',
-        feedId: feed_id,
-        records: products
-      )
+      conn.post do |req|
+        req.url 'api/index/update.json'
+        req.headers['Content-Type'] = 'application/json'
+        req.body = MultiJson.dump(
+          feedId: feed_id,
+          records: products
+        )
+      end
     end
 
     def delete(feed_id:, product_ids: [])
-      conn.post(
-        'api/index/delete.json',
-        feedId: feed_id,
-        records: product_ids
-      )
+      conn.post do |req|
+        req.url 'api/index/delete.json'
+        req.headers['Content-Type'] = 'application/json'
+        req.body = MultiJson.dump(
+          feedId: feed_id,
+          records: product_ids
+        )
+      end
     end
 
     private
