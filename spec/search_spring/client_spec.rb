@@ -22,26 +22,48 @@ RSpec.describe SearchSpring::Client do
     end
   end
 
-  it '#upsert' do
-    expect(client.conn)
-      .to receive(:post).with('api/index/upsert.json',
-                              feedId: '1234',
-                              records: [{ id: 1, title: 'test prod' }])
-    client.upsert(feed_id: feed_id, products: [{ id: 1, title: 'test prod' }])
-  end
+  describe "actions" do
+    before do
+      stubs = Faraday::Adapter::Test::Stubs.new do |stub|
+        stub.post(
+          '/api/index/upsert.json',
+          MultiJson.dump(feedId: '1234', records:[{ id: 1, title: 'test prod' }])
+        ) { |env| [200, {}, 'ok'] }
 
-  it '#update' do
-    expect(client.conn)
-      .to receive(:post).with('api/index/update.json',
-                              feedId: '1234',
-                              records: [{ id: 1, title: 'test prod' }])
-    client.update(feed_id: feed_id, products: [{ id: 1, title: 'test prod' }])
-  end
+        stub.post(
+          '/api/index/update.json',
+          MultiJson.dump(feedId: '1234', records: [{ id: 1, title: 'test prod' }])
+        ) { |env| [200, {}, 'ok'] }
 
-  it '#delete' do
-    expect(client.conn)
-      .to receive(:post).with('api/index/delete.json',
-                              feedId: '1234', records: [1])
-    client.delete(feed_id: feed_id, product_ids: [1])
+        stub.post(
+          '/api/index/delete.json',
+          MultiJson.dump(feedId: '1234', records: [1])
+        ) { |env| [200, {}, 'ok'] }
+      end
+      test = Faraday.new do |builder|
+        builder.adapter :test, stubs
+      end
+
+      allow(Faraday).to receive(:new).and_return(test)
+    end
+
+    it '#upsert' do
+      res = client.upsert(
+        feed_id: feed_id, products: [{ id: 1, title: 'test prod' }]
+      )
+      expect(res.body).to eq('ok')
+    end
+
+    it '#update' do
+      res = client.update(
+        feed_id: feed_id, products: [{ id: 1, title: 'test prod' }]
+      )
+      expect(res.body).to eq('ok')
+    end
+
+    it '#delete' do
+      res = client.delete(feed_id: feed_id, product_ids: [1])
+      expect(res.body).to eq('ok')
+    end
   end
 end

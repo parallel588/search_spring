@@ -53,6 +53,7 @@ module SearchSpring
 
     def connection(options = {})
       Faraday.new(default_req_options.merge(options)) do |f|
+        f.request  :url_encoded
         f.headers['Accept'] = 'application/json'
         f.request  :basic_auth, site_id, secret_key
         f.response :logger
